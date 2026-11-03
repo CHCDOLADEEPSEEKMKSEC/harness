@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CHC HARNESS</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d0817">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#0d0817;--fg:#f2eefa;--dim:#a99cc4;--gold:#e8b44a;--line:#2a2140}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,sans-serif;padding-bottom:80px}
+header{position:sticky;top:0;background:#0d0817ee;backdrop-filter:blur(6px);padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+h1{font-size:16px;margin:0;letter-spacing:.1em;color:var(--gold)}
+.badge{font-size:11px;color:var(--dim);border:1px solid var(--line);padding:2px 8px;border-radius:999px}
+main{max-width:760px;margin:0 auto;padding:14px 16px}
+.card{border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0;background:#151026}
+.dim{color:var(--dim);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+pre{white-space:pre-wrap;word-break:break-word;font-size:13px;margin:8px 0 0;max-height:38vh;overflow:auto}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+a.tile{display:block;text-align:center;text-decoration:none;color:var(--gold);border:1px solid var(--line);border-radius:12px;padding:14px 8px;background:#120c22}
+form{position:fixed;bottom:0;left:0;right:0;display:flex;gap:8px;padding:10px 12px;background:#120c22;border-top:1px solid var(--line)}
+input{flex:1;font:inherit;padding:11px;border-radius:10px;border:1px solid var(--line);background:#1b1330;color:var(--fg)}
+button{font:inherit;font-weight:700;padding:11px 16px;border-radius:10px;border:0;background:var(--gold);color:#1a1200}
+</style></head><body>
+<header><h1>CHC HARNESS</h1><span class="badge">MKSEC · phone</span></header>
+<main>
+  <div class="card"><div class="dim">hub status</div><pre id="status">tap refresh…</pre></div>
+  <div class="card"><div class="dim">recent notes</div><pre id="notes">tap refresh…</pre></div>
+  <div class="card"><div class="dim">open</div>
+    <div class="grid">
+      <a class="tile" href="https://bafoune.57.128.78.95.sslip.io/txt">TXT / SEND</a>
+      <a class="tile" href="https://bafoune.57.128.78.95.sslip.io/status">HUB STATUS</a>
+      <a class="tile" href="https://chcdoladeepseekmksec.github.io/ang36283/">PHASE 0 SITE</a>
+      <a class="tile" href="https://bafoune.57.128.78.95.sslip.io/docs">DOCS</a>
+      <a class="tile" href="https://bafoune.57.128.78.95.sslip.io/receipts.json">RECEIPTS</a>
+      <a class="tile" href="#" onclick="refresh();return false">REFRESH</a>
+    </div>
+  </div>
+  <div class="card"><div class="dim">note</div><pre>Harness GUI link (3080 → VPS 3081) is being restored; this app talks to the hub endpoints now.</pre></div>
+</main>
+<form onsubmit="send(event)"><input id="m" placeholder="message to hub / harness" autocomplete="off"><button>send</button></form>
+<script>
+const HUB='https://bafoune.57.128.78.95.sslip.io';
+async function t(u){try{const r=await fetch(u,{cache:'no-store'});return await r.text()}catch(e){return 'offline or blocked: '+e}}
+async function refresh(){
+  document.getElementById('status').textContent=(await t(HUB+'/status.json')).slice(0,800);
+  document.getElementById('notes').textContent=(await t(HUB+'/txt/notes')).slice(0,1200);
+}
+function send(e){e.preventDefault();const v=document.getElementById('m').value.trim();if(!v)return;
+  location.href=HUB+'/txt?msg='+encodeURIComponent(v);}
+if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+refresh();
+</script></body></html>
