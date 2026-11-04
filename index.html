@@ -1,52 +1,68 @@
-<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CHC HARNESS</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0817">
-<link rel="apple-touch-icon" href="icon-192.png">
 <style>
-:root{--bg:#0d0817;--fg:#f2eefa;--dim:#a99cc4;--gold:#e8b44a;--line:#2a2140}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,sans-serif;padding-bottom:80px}
-header{position:sticky;top:0;background:#0d0817ee;backdrop-filter:blur(6px);padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-h1{font-size:16px;margin:0;letter-spacing:.1em;color:var(--gold)}
-.badge{font-size:11px;color:var(--dim);border:1px solid var(--line);padding:2px 8px;border-radius:999px}
-main{max-width:760px;margin:0 auto;padding:14px 16px}
-.card{border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0;background:#151026}
-.dim{color:var(--dim);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
-pre{white-space:pre-wrap;word-break:break-word;font-size:13px;margin:8px 0 0;max-height:38vh;overflow:auto}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-a.tile{display:block;text-align:center;text-decoration:none;color:var(--gold);border:1px solid var(--line);border-radius:12px;padding:14px 8px;background:#120c22}
-form{position:fixed;bottom:0;left:0;right:0;display:flex;gap:8px;padding:10px 12px;background:#120c22;border-top:1px solid var(--line)}
-input{flex:1;font:inherit;padding:11px;border-radius:10px;border:1px solid var(--line);background:#1b1330;color:var(--fg)}
-button{font:inherit;font-weight:700;padding:11px 16px;border-radius:10px;border:0;background:var(--gold);color:#1a1200}
+:root{--bg:#0d0817;--fg:#f2eefa;--dim:#a99cc4;--gold:#e8b44a;--line:#2a2140;--green:#5fd39a;--red:#e8506a}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+h1{font-size:17px;margin:0;color:var(--gold);letter-spacing:.06em}
+main{padding:14px 16px 100px;max-width:760px;margin:0 auto}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0;background:#151026}
+.dim{color:var(--dim);font-size:13px}
+pre{white-space:pre-wrap;word-break:break-word;font-size:12px;margin:6px 0 0;max-height:200px;overflow:auto}
+.msg{padding:8px 0;border-bottom:1px solid #221a38}
+.msg .w{color:var(--gold);font-size:12px;font-weight:700}
+.msg .t{white-space:pre-wrap}
+form{position:fixed;bottom:0;left:0;right:0;display:flex;gap:8px;padding:10px;background:#120c22;border-top:1px solid var(--line)}
+input,button{font:inherit;padding:12px;border-radius:10px;border:1px solid var(--line);background:#1b1330;color:var(--fg)}
+input{flex:1}
+button{background:var(--gold);color:#1a1200;font-weight:700;border:0}
+a{color:var(--gold)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid a{display:block;border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center;text-decoration:none;font-size:14px}
 </style></head><body>
-<header><h1>CHC HARNESS</h1><span class="badge">MKSEC · phone</span></header>
+<header><h1>CHC HARNESS</h1><span class="dim" id="who">MKSEC · phone</span></header>
 <main>
-  <div class="card"><div class="dim">hub status</div><pre id="status">tap refresh…</pre></div>
-  <div class="card"><div class="dim">recent notes</div><pre id="notes">tap refresh…</pre></div>
-  <div class="card"><div class="dim">open</div>
-    <div class="grid">
-      <a class="tile" href="https://bafoune.57.128.78.95.sslip.io/txt">TXT / SEND</a>
-      <a class="tile" href="https://bafoune.57.128.78.95.sslip.io/status">HUB STATUS</a>
-      <a class="tile" href="https://chcdoladeepseekmksec.github.io/ang36283/">PHASE 0 SITE</a>
-      <a class="tile" href="https://bafoune.57.128.78.95.sslip.io/docs">DOCS</a>
-      <a class="tile" href="https://bafoune.57.128.78.95.sslip.io/receipts.json">RECEIPTS</a>
-      <a class="tile" href="#" onclick="refresh();return false">REFRESH</a>
-    </div>
-  </div>
-  <div class="card"><div class="dim">note</div><pre>Harness GUI link (3080 → VPS 3081) is being restored; this app talks to the hub endpoints now.</pre></div>
+ <div class="card"><div class="dim">hub status</div><pre id="status">…</pre></div>
+ <div class="card"><div class="dim">crew chat — replies come back here</div><div id="chat">…</div></div>
+ <div class="card"><div class="dim">last notes</div><pre id="notes">…</pre></div>
+ <div class="card"><div class="dim">links</div>
+   <div class="grid">
+     <a href="https://bafoune.57.128.78.95.sslip.io/h" target="_blank" rel="noopener">HUB HARNESS</a>
+     <a href="https://bafoune.57.128.78.95.sslip.io/alert" target="_blank" rel="noopener">ALERTS</a>
+     <a href="https://bafoune.57.128.78.95.sslip.io/chat" target="_blank" rel="noopener">CHAT</a>
+     <a href="https://bafoune.57.128.78.95.sslip.io/v2" target="_blank" rel="noopener">V.2</a>
+     <a href="https://bafoune.57.128.78.95.sslip.io/bj" target="_blank" rel="noopener">BJ ADVISOR</a>
+     <a href="https://chcdoladeepseekmksec.github.io/ang36283-site/" target="_blank" rel="noopener">RECORD</a>
+   </div>
+ </div>
 </main>
-<form onsubmit="send(event)"><input id="m" placeholder="message to hub / harness" autocomplete="off"><button>send</button></form>
+<form onsubmit="send(event)"><input id="msg" placeholder="message to CHC…" autocomplete="off"><button>send</button></form>
 <script>
-const HUB='https://bafoune.57.128.78.95.sslip.io';
-async function t(u){try{const r=await fetch(u,{cache:'no-store'});return await r.text()}catch(e){return 'offline or blocked: '+e}}
+const HUB = 'https://bafoune.57.128.78.95.sslip.io';
+const WHO = 'ARCHIE33 (phone)';
+function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
+async function txt(u){try{const r=await fetch(u,{cache:'no-store'});return await r.text()}catch(e){return 'offline: '+e}}
+async function jsn(u){try{const r=await fetch(u,{cache:'no-store'});return await r.json()}catch(e){return {}}}
 async function refresh(){
-  document.getElementById('status').textContent=(await t(HUB+'/status.json')).slice(0,800);
-  document.getElementById('notes').textContent=(await t(HUB+'/txt/notes')).slice(0,1200);
+  document.getElementById('status').textContent=(await txt(HUB+'/status.json')).slice(0,500);
+  document.getElementById('notes').textContent=(await txt(HUB+'/txt/notes')).slice(-1000);
+  const d=await jsn(HUB+'/chat/feed?t='+Date.now());
+  const box=document.getElementById('chat');
+  const msgs=(d.messages||[]).slice(-14);
+  box.innerHTML = msgs.map(m=>'<div class="msg"><div class="w">'+esc(m.who)+'</div><div class="t">'+esc(m.text)+'</div></div>').join('') || '<div class="dim">no messages yet — say hello</div>';
 }
-function send(e){e.preventDefault();const v=document.getElementById('m').value.trim();if(!v)return;
-  location.href=HUB+'/txt?msg='+encodeURIComponent(v);}
+async function send(ev){
+  ev.preventDefault();
+  const i=document.getElementById('msg'); const m=i.value.trim(); if(!m) return; i.value='';
+  try{
+    const r=await fetch(HUB+'/chat/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({who:WHO,text:m})});
+    if(!r.ok) throw new Error('http '+r.status);
+    setTimeout(refresh,500);
+  }catch(e){ alert('send failed: '+e+' — try the hub harness link'); }
+}
+refresh(); setInterval(refresh,12000);
 if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
-refresh();
 </script></body></html>
